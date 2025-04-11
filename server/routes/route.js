@@ -1,10 +1,11 @@
 const express = require('express');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-
+const dotenv = require('dotenv');
+dotenv.config();
 const router = express.Router();
-const apiKey = process.env.GEMINI_API_KEY || "AIzaSyASrg6Kp6P3rMUCzoiqSc40jCo_jmI4xfE";
+const apiKey = process.env.GEMINI_API_KEY ;
 
-// Initialize Google Generative AI
+console.log('API Key:', apiKey);
 const genAI = new GoogleGenerativeAI(apiKey);
 
 router.post('/suggest', async (req, res) => {
@@ -13,7 +14,6 @@ router.post('/suggest', async (req, res) => {
         
         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
         
-        // Create the prompt text
         const promptText = `
         As the professional inventory analyst for Assawa grocery stores, create a structured, professional alert (120-150 words) for the month of ${selected_month} with specific restocking recommendations to maximize profits.
         CRITICAL: Dont start with saying "OKAY,here is the message" , JUST RETURN THE MESSAGE . Dont start with "here is the alert" . USE ONE LINE SPACING BETWEEN EACH ITEM. USE NUMBERS with prefix as "-" FOR THE every new item.
